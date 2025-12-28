@@ -42,7 +42,9 @@ class SyncJobsRequest(BaseModel):
     portals: Optional[List[Portal]] = None  # Defaults to user's enabled portals
     title: Optional[str] = None
     location: Optional[str] = None
-    company_names: Optional[List[str]] = None
+    company_names: Optional[List[str]] = Field(default=None, alias="companyName")
+    company_ids: Optional[List[str]] = Field(default=None, alias="companyId")
+    published_at: Optional[str] = Field(default=None, alias="publishedAt")
     rows: int = Field(default=50, ge=1, le=100)
 
 

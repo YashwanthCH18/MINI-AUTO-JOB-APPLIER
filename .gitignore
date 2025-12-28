@@ -10,7 +10,6 @@ env/
 
 # Environment variables
 .env
-.env.example
 
 # IDE
 .idea/

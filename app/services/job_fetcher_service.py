@@ -20,6 +20,8 @@ class JobFetcherService:
         title: Optional[str] = None,
         location: Optional[str] = None,
         company_names: Optional[List[str]] = None,
+        company_ids: Optional[List[str]] = None,
+        published_at: Optional[str] = None,
         rows: int = 50
     ) -> dict:
         """
@@ -31,6 +33,8 @@ class JobFetcherService:
             "title": title,
             "location": location,
             "company_names": company_names,
+            "company_ids": company_ids,
+            "published_at": published_at,
             "rows": rows
         }
         
@@ -54,6 +58,8 @@ class JobFetcherService:
                 title=title,
                 location=location,
                 company_names=company_names,
+                company_ids=company_ids,
+                published_at=published_at,
                 rows=rows
             )
         )
@@ -67,6 +73,8 @@ class JobFetcherService:
         title: Optional[str] = None,
         location: Optional[str] = None,
         company_names: Optional[List[str]] = None,
+        company_ids: Optional[List[str]] = None,
+        published_at: Optional[str] = None,
         rows: int = 50
     ):
         """
@@ -79,6 +87,8 @@ class JobFetcherService:
                 title=title,
                 location=location,
                 company_names=company_names,
+                company_ids=company_ids,
+                published_at=published_at,
                 rows=rows
             )
             

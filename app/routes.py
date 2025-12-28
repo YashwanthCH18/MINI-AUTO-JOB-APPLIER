@@ -42,6 +42,8 @@ async def sync_jobs(
             title=request.title,
             location=request.location,
             company_names=request.company_names,
+            company_ids=request.company_ids,
+            published_at=request.published_at,
             rows=request.rows
         )
         

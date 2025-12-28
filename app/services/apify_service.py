@@ -23,6 +23,8 @@ class ApifyService:
         title: Optional[str] = None,
         location: Optional[str] = None,
         company_names: Optional[List[str]] = None,
+        company_ids: Optional[List[str]] = None,
+        published_at: Optional[str] = None,
         rows: int = 50
     ) -> dict:
         """
@@ -44,6 +46,10 @@ class ApifyService:
             input_data["location"] = location
         if company_names:
             input_data["companyName"] = company_names
+        if company_ids:
+            input_data["companyId"] = company_ids
+        if published_at:
+            input_data["publishedAt"] = published_at
         
         # Start the actor
         async with httpx.AsyncClient(timeout=60.0) as client:
@@ -127,6 +133,8 @@ class ApifyService:
         title: Optional[str] = None,
         location: Optional[str] = None,
         company_names: Optional[List[str]] = None,
+        company_ids: Optional[List[str]] = None,
+        published_at: Optional[str] = None,
         rows: int = 50
     ) -> List[ApifyJobResult]:
         """
@@ -138,6 +146,8 @@ class ApifyService:
             title=title,
             location=location,
             company_names=company_names,
+            company_ids=company_ids,
+            published_at=published_at,
             rows=rows
         )
         

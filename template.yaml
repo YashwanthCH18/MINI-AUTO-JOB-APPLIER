@@ -1,0 +1,72 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Job Fetcher Stack
+  Fetches jobs from Apify (LinkedIn) and stores in Supabase.
+
+Parameters:
+  SupabaseUrl:
+    Type: String
+    Description: Supabase Project URL
+  SupabaseKey:
+    Type: String
+    Description: Supabase Anon Key or Service Key
+  SupabaseServiceKey:
+    Type: String
+    Description: Supabase Service Role Key
+  ApifyApiToken:
+    Type: String
+    Description: Apify API Token
+  JwtSecret:
+    Type: String
+    Description: JWT Secret for Auth
+  DevMode:
+    Type: String
+    Default: "false"
+    AllowedValues: ["true", "false"]
+
+Globals:
+  Function:
+    Timeout: 300
+    MemorySize: 512
+    Environment:
+      Variables:
+        SUPABASE_URL: !Ref SupabaseUrl
+        SUPABASE_KEY: !Ref SupabaseKey
+        SUPABASE_SERVICE_KEY: !Ref SupabaseServiceKey
+        APIFY_API_TOKEN: !Ref ApifyApiToken
+        JWT_SECRET: !Ref JwtSecret
+        DEV_MODE: !Ref DevMode
+        # Default values used in code
+        APIFY_ACTOR_ID: "bebity~linkedin-jobs-scraper"
+        JWT_ALGORITHM: "HS256"
+
+  Api:
+    Cors:
+      AllowMethods: "'*'"
+      AllowHeaders: "'*'"
+      AllowOrigin: "'*'"
+
+Resources:
+  JobFetcherFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: app.main.handler
+      Runtime: python3.12
+      Architectures:
+        - x86_64
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: any
+
+Outputs:
+  JobFetcherApi:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  JobFetcherFunction:
+    Description: "Job Fetcher Lambda Function ARN"
+    Value: !GetAtt JobFetcherFunction.Arn
